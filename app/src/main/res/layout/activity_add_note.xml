@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/notesbackground">
+
+    <TextView
+        android:id="@+id/HelloID"
+        android:layout_width="340dp"
+        android:layout_height="250dp"
+        android:text="Welcome to your notes\n Add a new note!"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:textSize="50dp"
+        android:fontFamily="@font/sticknote"
+        android:layout_marginTop="30dp"
+        android:textColor="#D0FBFBFB" />
+    <EditText
+        android:id="@+id/noteInput"
+        android:layout_width="350dp"
+        android:layout_height="330dp"
+        android:hint="Enter Text here"
+        android:inputType="text"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="380dp"
+        android:background="@android:color/transparent"/>
+    <Button
+        android:id="@+id/AddNote"
+        android:layout_width="190dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="300dp"
+        android:text="Add Note"
+        android:textSize="30dp"
+        android:fontFamily="@font/sticknote"
+        android:textColor="#3B84F1"
+        android:backgroundTint="@android:color/transparent"
+        android:onClick="sendMessage"/>
+
+</RelativeLayout>
