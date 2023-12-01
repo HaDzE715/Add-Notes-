@@ -1,9 +1,12 @@
 package com.example.loginapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 
 
 class AddNote : AppCompatActivity() {
@@ -20,6 +23,8 @@ class AddNote : AppCompatActivity() {
 
         addNote.setOnClickListener {
             val noteContent = note.text.toString()
+            Toast.makeText(this, "Note added successfully!", Toast.LENGTH_SHORT).show()
+            startActivity(Intent(this, SecondActivity::class.java))
 
         }
     }

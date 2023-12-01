@@ -12,6 +12,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var usernameInput : EditText
     lateinit var passwordInput : EditText
     lateinit var loginBtn : Button
+    lateinit var registerBtn : Button
 
 
     override fun onCreate(savedInstanceState: Bundle?)
@@ -22,16 +23,19 @@ class MainActivity : AppCompatActivity() {
         usernameInput = findViewById(R.id.username_input)
         passwordInput = findViewById(R.id.password_input)
         loginBtn = findViewById(R.id.login_btn)
+        registerBtn = findViewById(R.id.register_btn)
 
         loginBtn.setOnClickListener {
-//            val username = usernameInput.text.toString()
-//            val password = passwordInput.text.toString()
-//
-//            if(username == "Hade Bayaa" && password == "Aa123456")
-//            {
-//                startActivity(Intent(this, SecondActivity::class.java))
-//            }
-        startActivity(Intent(this, SecondActivity::class.java))
+            val username = usernameInput.text.toString()
+            val password = passwordInput.text.toString()
+
+            if(username == "Hade Bayaa" && password == "Aa123456")
+            {
+                startActivity(Intent(this, SecondActivity::class.java))
+            }
     }
+        registerBtn.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
+        }
     }
 }
