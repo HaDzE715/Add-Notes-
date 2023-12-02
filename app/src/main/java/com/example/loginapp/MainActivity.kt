@@ -3,8 +3,11 @@ package com.example.loginapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import com.example.loginapp.NetworkService.apiService
+import com.example.loginapp.NetworkService.performLogin
 
 
 class MainActivity : AppCompatActivity() {
@@ -28,10 +31,16 @@ class MainActivity : AppCompatActivity() {
         loginBtn.setOnClickListener {
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
+            val loginData = LoginData(username, password)
 
-            if(username == "Hade Bayaa" && password == "Aa123456")
-            {
-                startActivity(Intent(this, SecondActivity::class.java))
+            performLogin(loginData){
+                success, message ->
+                if(success){
+                    startActivity(Intent(this, SecondActivity::class.java))
+                }
+                else{
+                    Log.e("Logging in", "Failed!")
+                }
             }
     }
         registerBtn.setOnClickListener {
