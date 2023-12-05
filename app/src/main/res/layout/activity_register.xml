@@ -22,13 +22,20 @@
             android:layout_height="50dp"
             android:src="@drawable/baseline_arrow_back_24"
             android:layout_marginRight="150dp"
-            android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp"
             android:onClick="sendMessage"/>
 
     <ImageView
         android:layout_width="160dp"
         android:layout_height="160dp"
+        android:id="@+id/image_view"
         android:src="@drawable/baseline_how_to_reg_24"/>
+    <TextView
+        android:layout_width="300dp"
+        android:layout_height="30dp"
+        android:text="Click the icon above to upload picture"
+        android:textColor="#FFFFFF"
+        android:layout_marginLeft="25dp"/>
 
         <EditText
             android:layout_width="match_parent"
@@ -78,14 +85,23 @@
             android:padding="18dp"
             android:inputType="textPassword"
             android:id="@+id/Registerpassword_input"/>
+     <Button
+        android:layout_width="180dp"
+        android:layout_height="60dp"
+        android:backgroundTint="@color/white"
+        android:text="Upload Image"
+        android:layout_marginTop="10dp"
+        android:textSize="16sp"
+        android:textColor="#3B84F1"
+        android:id="@+id/uploadImage"/>
         <Button
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_width="330dp"
+            android:layout_height="70dp"
             android:text="Register"
+            android:layout_marginBottom="50dp"
             android:backgroundTint="@color/white"
             android:textColor="#3B84F1"
             android:padding="18dp"
-            android:layout_marginTop="32sp"
             android:textSize="20sp"
             android:id="@+id/RegForm_btn"
             android:onClick="sendMessage"/>

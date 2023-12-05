@@ -1,10 +1,13 @@
 package com.example.loginapp
 
+import android.content.Intent
 import android.util.Log
+import com.example.loginapp.NetworkService.apiService
 import com.example.loginapp.services.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -38,41 +41,36 @@ object NetworkService {
             }
         }
     }
+}
 
-    fun performLogin(loginData: LoginData, onLoginComplete: (Boolean, String?) -> Unit) {
-        // Create a LoginData object with the user's input
 
-        // Launch a coroutine to make the network request
-        GlobalScope.launch(Dispatchers.Main) {
-            try {
-                // Call the login method
-                val response = apiService.loginUser(loginData)
+fun performLogin(loginData: LoginData, onLoginComplete: (UserApiResponse) -> Unit) {
+    // Create a LoginData object with the user's input
 
-                // Check if the login was successful
-                if (response.isSuccessful)
+    // Launch a coroutine to make the network request
+    GlobalScope.launch(Dispatchers.Main) {
+        try {
+            // Call the login method
+            val response = apiService.loginUser(loginData)
+
+            // Check if the login was successful
+            if (response.isSuccessful)
+            {
+                val responseBody: UserApiResponse? = response.body()
+                if (responseBody != null)
                 {
-                    val responseBody: UserApiResponse? = response.body()
-                    if (responseBody != null)
-                    {
-                        val responseBodyusername : String = responseBody.username
-                        val responseBodypassword : String = responseBody.password
-                        Log.e("Username", "Db: ${responseBodypassword}")
-                        if(responseBodyusername == loginData.username)
-                        {
-                            // Handle successful login
-                            Log.e("Login", "Successful")
-                            onLoginComplete(true, "Login Successful!")
-                        }
-                    }
-                } else {
-                    // Handle login failure
-                    val errorMessage = response.message()
-                    Log.e("Login", "Login failed: $errorMessage")
+                    Log.e("Login", "Login Success")
+                    onLoginComplete(responseBody)
                 }
-            } catch (e: Exception) {
-                // Handle network or other exceptions
-                Log.e("Login", "Network error: ${e.message}")
+            } else {
+                // Handle login failure
+                val errorMessage = response.message()
+                Log.e("Login", "Login failed: $errorMessage")
             }
+        } catch (e: Exception) {
+            // Handle network or other exceptions
+            Log.e("Login", "Network error: ${e.message}")
         }
     }
 }
+

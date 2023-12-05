@@ -1,7 +1,8 @@
 package com.example.loginapp
 
 data class UserApiResponse(
-    val username: String,
-    val password: String,
-    val img : String
+    val fname: String?,
+    val lname: String?,
+    val img : String?,
+    val error : String?
 )

@@ -7,7 +7,7 @@ import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import com.example.loginapp.NetworkService.apiService
-import com.example.loginapp.NetworkService.performLogin
+//import com.example.loginapp.NetworkService.performLogin
 
 
 class MainActivity : AppCompatActivity() {
@@ -33,10 +33,20 @@ class MainActivity : AppCompatActivity() {
             val password = passwordInput.text.toString()
             val loginData = LoginData(username, password)
 
+
             performLogin(loginData){
-                success, message ->
-                if(success){
-                    startActivity(Intent(this, SecondActivity::class.java))
+                responseBody ->
+                val responseBodyerror : String? = responseBody.error
+                val responseBodyfname : String? = responseBody.fname
+                val responseBodylname : String? = responseBody.lname
+                val responseBodyimg : String? = responseBody.img
+
+                if(responseBodyerror.isNullOrEmpty()){
+                    val senderIntent = Intent(this, SecondActivity::class.java)
+                    senderIntent.putExtra("KEY_FNAME", responseBodyfname.toString())
+                    senderIntent.putExtra("KEY_LNAME", responseBodylname.toString())
+                    senderIntent.putExtra("KEY_IMG", responseBodyimg.toString())
+                    startActivity(senderIntent)
                 }
                 else{
                     Log.e("Logging in", "Failed!")
