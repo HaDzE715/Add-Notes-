@@ -19,21 +19,14 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"/>
 
-
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/Profile_Pic"
         android:layout_width="85dp"
         android:layout_height="85dp"
         android:layout_marginTop="65dp"
         android:layout_marginLeft="20dp"
-        android:src="@drawable/me"/>
-    <ImageView
-        android:id="@+id/rounded_frame"
-        android:layout_width="85dp"
-        android:layout_height="85dp"
-        android:layout_marginTop="65dp"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/rounded_circle"/>
+        android:src="@drawable/me"
+        android:scaleType="centerCrop"/>
 
     <TextView
         android:id="@+id/welcome_text"

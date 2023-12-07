@@ -1,0 +1,6 @@
+<!-- res/drawable/placeholder_image.xml -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/notesbackground"/>
+    <item android:drawable="@drawable/me"
+        android:gravity="center"/>
+</layer-list>

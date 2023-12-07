@@ -3,12 +3,13 @@ package com.example.loginapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import com.example.loginapp.NetworkService.apiService
-//import com.example.loginapp.NetworkService.performLogin
-
+import java.io.File
+import java.io.FileOutputStream
 
 class MainActivity : AppCompatActivity() {
 
@@ -40,12 +41,15 @@ class MainActivity : AppCompatActivity() {
                 val responseBodyfname : String? = responseBody.fname
                 val responseBodylname : String? = responseBody.lname
                 val responseBodyimg : String? = responseBody.img
+                val decodedImg : ByteArray = decodeBase64(responseBodyimg)
 
                 if(responseBodyerror.isNullOrEmpty()){
+                    val localImagePath = saveImageLocally(responseBodyimg)
+
                     val senderIntent = Intent(this, SecondActivity::class.java)
                     senderIntent.putExtra("KEY_FNAME", responseBodyfname.toString())
                     senderIntent.putExtra("KEY_LNAME", responseBodylname.toString())
-                    senderIntent.putExtra("KEY_IMG", responseBodyimg.toString())
+                    senderIntent.putExtra("KEY_IMG_PATH", localImagePath)
                     startActivity(senderIntent)
                 }
                 else{
@@ -56,5 +60,22 @@ class MainActivity : AppCompatActivity() {
         registerBtn.setOnClickListener {
             startActivity(Intent(this, RegisterActivity::class.java))
         }
+    }
+    fun decodeBase64(encodedString: String?): ByteArray {
+        return Base64.decode(encodedString, Base64.DEFAULT)
+    }
+
+    private fun saveImageLocally(base64String: String?): String {
+        // Decode Base64 to byte array
+        val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
+
+        // Save the byte array as a file
+        val fileName = "profile_image.jpg"
+        val file = File(filesDir, fileName)
+        FileOutputStream(file).use { outputStream ->
+            outputStream.write(decodedBytes)
+        }
+
+        return file.absolutePath
     }
 }

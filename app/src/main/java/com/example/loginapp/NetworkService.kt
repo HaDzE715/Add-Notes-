@@ -46,9 +46,8 @@ object NetworkService {
 
 fun performLogin(loginData: LoginData, onLoginComplete: (UserApiResponse) -> Unit) {
     // Create a LoginData object with the user's input
-
     // Launch a coroutine to make the network request
-    GlobalScope.launch(Dispatchers.Main) {
+    GlobalScope.launch(Dispatchers.IO) {
         try {
             // Call the login method
             val response = apiService.loginUser(loginData)
