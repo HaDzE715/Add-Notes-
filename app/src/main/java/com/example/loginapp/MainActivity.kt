@@ -1,13 +1,12 @@
 package com.example.loginapp
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
-import com.example.loginapp.NetworkService.apiService
+import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 import java.io.FileOutputStream
 
@@ -51,6 +50,7 @@ class MainActivity : AppCompatActivity() {
                     senderIntent.putExtra("KEY_LNAME", responseBodylname.toString())
                     senderIntent.putExtra("KEY_IMG_PATH", localImagePath)
                     startActivity(senderIntent)
+                    finish()
                 }
                 else{
                     Log.e("Logging in", "Failed!")

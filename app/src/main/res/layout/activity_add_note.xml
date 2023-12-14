@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/notesbackground">
+
 
     <TextView
         android:id="@+id/HelloID"
@@ -15,29 +16,32 @@
         android:textSize="50dp"
         android:fontFamily="@font/sticknote"
         android:layout_marginTop="30dp"
-        android:textColor="#D0FBFBFB" />
+        android:textColor="#D0FBFBFB"
+        android:layout_marginLeft="40dp"/>
     <EditText
         android:id="@+id/noteInput"
         android:layout_width="350dp"
-        android:layout_height="330dp"
+        android:layout_height="270dp"
         android:hint="Enter Text here"
         android:inputType="text"
         android:gravity="center"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="380dp"
+        android:layout_marginLeft="28dp"
         android:background="@android:color/transparent"/>
     <Button
         android:id="@+id/AddNote"
-        android:layout_width="190dp"
+        android:layout_width="210dp"
         android:layout_height="80dp"
         android:gravity="center"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="300dp"
+        android:layout_marginTop="290dp"
+        android:layout_marginLeft="100dp"
         android:text="Add Note"
-        android:textSize="30dp"
+        android:textSize="24dp"
         android:fontFamily="@font/sticknote"
         android:textColor="#3B84F1"
         android:backgroundTint="@android:color/transparent"
         android:onClick="sendMessage"/>
 
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

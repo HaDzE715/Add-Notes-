@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -17,18 +17,21 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ImageUploader"
-            android:exported="false" />
+            android:name=".UserProfile"
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:taskAffinity=""/>
         <activity
             android:name=".RegisterActivity"
             android:exported="false" />
-
         <activity
             android:name=".AddNote"
             android:exported="false" />
         <activity
             android:name=".SecondActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:launchMode="singleTop"
+            android:taskAffinity=""/>
         <activity
             android:name=".MainActivity"
             android:exported="true">
