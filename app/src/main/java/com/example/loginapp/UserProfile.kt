@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.text.InputType
+import android.text.method.PasswordTransformationMethod
 import android.util.Base64
 import android.widget.Button
 import android.widget.EditText
@@ -21,6 +22,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
 
 class UserProfile : AppCompatActivity() {
@@ -46,10 +49,13 @@ class UserProfile : AppCompatActivity() {
         var PasswordProfile : EditText = findViewById<EditText>(R.id.PasswordProfile)
         val ShowPassword : ImageView = findViewById(R.id.ShowPassword)
         var Savechanges : Button = findViewById(R.id.SavechangesButton)
+        var EditProfileBtn : ImageView = findViewById(R.id.EditProfileBtn)
 
         imgPath = sharedPref.getString("KEY_IMG_PATH", "")
 
-        PasswordProfile.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
+        PasswordProfile.inputType = InputType.TYPE_NULL
+        PasswordProfile.isClickable = false
+        PasswordProfile.transformationMethod = PasswordTransformationMethod.getInstance()
         PasswordProfile.setText(Password)
         UsernameProfile.setText(Username)
         FirstnameProfile.setText(FirstName)
@@ -57,12 +63,25 @@ class UserProfile : AppCompatActivity() {
 
         loadImageIntoImageView(imgPath, ProfilePic)
 
+        UsernameProfile.inputType = InputType.TYPE_NULL
+        UsernameProfile.isClickable = false
+
+        FirstnameProfile.inputType = InputType.TYPE_NULL
+        FirstnameProfile.isClickable = false
+
+        LastnameProfile.inputType = InputType.TYPE_NULL
+        LastnameProfile.isClickable = false
+
+
+
         btnnav = findViewById(R.id.bottomNavigationView)
         btnnav.selectedItemId = R.id.miProfile
 
         ShowPassword.setOnClickListener {// Eye on show password
             PasswordProfile.inputType =
                 InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
+            PasswordProfile.isClickable = false
+            PasswordProfile.isEnabled = false
 
             Handler(Looper.getMainLooper()).postDelayed({
                 PasswordProfile.inputType =
@@ -76,10 +95,11 @@ class UserProfile : AppCompatActivity() {
             val HomeIntent = Intent(this, SecondActivity::class.java)
             val fname : String = FirstnameProfile.text.toString()
             val lname : String = LastnameProfile.text.toString()
-            val img : String = selectedImageBase64 ?: "NONE"
+            val NewLocalImgPath = saveImageLocally(selectedImageBase64)
             HomeIntent.putExtra("source", "ProfileActivity")
             editor.putString("FIRST_NAME", fname)
             editor.putString("LAST_NAME", lname)
+            editor.putString("KEY_IMG_PATH", NewLocalImgPath)
             editor.apply()
             Toast.makeText(this, "Changed successfully", Toast.LENGTH_SHORT).show()
             startActivity(HomeIntent)
@@ -105,7 +125,6 @@ class UserProfile : AppCompatActivity() {
             startActivity(Intent(this, AddNote::class.java))
         }
     }
-
     private fun loadImageIntoImageView(imagePath: String?, imageView: ImageView) {
         if (imagePath != null) {
             // Use BitmapFactory to decode the image file
@@ -146,5 +165,18 @@ class UserProfile : AppCompatActivity() {
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
         val byteArray = byteArrayOutputStream.toByteArray()
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
+    }
+    private fun saveImageLocally(base64String: String?): String {
+        // Decode Base64 to byte array
+        val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
+
+        // Save the byte array as a file
+        val fileName = "profile_image.jpg"
+        val file = File(filesDir, fileName)
+        FileOutputStream(file).use { outputStream ->
+            outputStream.write(decodedBytes)
+        }
+
+        return file.absolutePath
     }
 }

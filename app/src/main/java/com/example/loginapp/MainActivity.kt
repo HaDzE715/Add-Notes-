@@ -30,6 +30,11 @@ class MainActivity : AppCompatActivity() {
         registerBtn = findViewById(R.id.register_btn)
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
+        val username : String? = sharedPref.getString("USERNAME", "")
+
+        if (username != null) {
+            startActivity(Intent(this, loggedin::class.java))
+        }
 
         loginBtn.setOnClickListener {
             val username = usernameInput.text.toString()

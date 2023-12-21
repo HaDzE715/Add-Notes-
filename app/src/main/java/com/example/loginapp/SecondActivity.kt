@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -26,6 +25,9 @@ class SecondActivity : AppCompatActivity() {
         btnnav.background = null
         val source = intent.getStringExtra("source")
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
+
+
+
         val editor = sharedPref.edit()
 
         if ("LoginActivity" == source) {
@@ -85,10 +87,6 @@ class SecondActivity : AppCompatActivity() {
             var receivedFname : String? = sharedPref.getString("FIRST_NAME", "")
             var receivedImg : String? = sharedPref.getString("KEY_IMG_PATH", "")
             receivedFname += ","
-
-            if (receivedImg != null) {
-                Log.e("IMGPATH", receivedImg)
-            }
 
             fname.setText(receivedFname)
             loadImageIntoImageView(receivedImg, ProfilePic)
