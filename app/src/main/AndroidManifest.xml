@@ -29,9 +29,7 @@
             android:exported="false" />
         <activity
             android:name=".SecondActivity"
-            android:exported="false"
-            android:launchMode="singleTop"
-            android:taskAffinity=""/>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true">

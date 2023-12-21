@@ -1,5 +1,6 @@
 package com.example.loginapp
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
@@ -27,12 +28,13 @@ class MainActivity : AppCompatActivity() {
         passwordInput = findViewById(R.id.password_input)
         loginBtn = findViewById(R.id.login_btn)
         registerBtn = findViewById(R.id.register_btn)
+        val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
 
         loginBtn.setOnClickListener {
             val username = usernameInput.text.toString()
             val password = passwordInput.text.toString()
             val loginData = LoginData(username, password)
-
 
             performLogin(loginData){
                 responseBody ->
@@ -42,6 +44,10 @@ class MainActivity : AppCompatActivity() {
                 val responseBodyimg : String? = responseBody.img
                 val decodedImg : ByteArray = decodeBase64(responseBodyimg)
 
+                editor.putString("USERNAME", username)
+                editor.putString("PASSWORD", password)
+                editor.apply()
+
                 if(responseBodyerror.isNullOrEmpty()){
                     val localImagePath = saveImageLocally(responseBodyimg)
 
@@ -49,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                     senderIntent.putExtra("KEY_FNAME", responseBodyfname.toString())
                     senderIntent.putExtra("KEY_LNAME", responseBodylname.toString())
                     senderIntent.putExtra("KEY_IMG_PATH", localImagePath)
+                    senderIntent.putExtra("source", "LoginActivity")
                     startActivity(senderIntent)
                     finish()
                 }

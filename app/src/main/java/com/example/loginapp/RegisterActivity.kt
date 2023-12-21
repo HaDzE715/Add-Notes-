@@ -3,7 +3,6 @@ package com.example.loginapp
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
@@ -11,6 +10,7 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
 import com.example.loginapp.NetworkService.registerUser
 import java.io.ByteArrayOutputStream
 import java.io.IOException
@@ -48,7 +48,6 @@ class RegisterActivity : AppCompatActivity(), ImagePickerCallBack {
 
             // Use selectedImageBase64 directly
             val img = selectedImageBase64 ?: "NONE"
-            Log.e("IMG", img)
 
             val registrationData = RegistrationData(fname, lname, username, password, img)
 

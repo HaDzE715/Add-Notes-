@@ -1,8 +1,10 @@
 package com.example.loginapp
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -22,50 +24,91 @@ class SecondActivity : AppCompatActivity() {
         setContentView(R.layout.activity_second)
         btnnav = findViewById(com.example.loginapp.R.id.bottomNavigationView)
         btnnav.background = null
+        val source = intent.getStringExtra("source")
+        val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
+        val editor = sharedPref.edit()
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener {
-            startActivity(Intent(this, AddNote::class.java))
-        }
+        if ("LoginActivity" == source) {
+            val fab: FloatingActionButton = findViewById(R.id.fab)
+            fab.setOnClickListener {
+                startActivity(Intent(this, AddNote::class.java))
+            }
 
-        btnnav.setOnItemSelectedListener { item ->
-            when(item.itemId){
-                R.id.miProfile -> {
-                    startActivity(Intent(applicationContext, UserProfile::class.java))
-                    overridePendingTransition(0, 0)
-                    return@setOnItemSelectedListener true
+            btnnav.setOnItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.miProfile -> {
+                        startActivity(Intent(applicationContext, UserProfile::class.java))
+                        overridePendingTransition(0, 0)
+                        return@setOnItemSelectedListener true
+                    }
+
+                    R.id.miHome -> {
+                        return@setOnItemSelectedListener true
+                    }
                 }
-                R.id.miHome -> {
-                    return@setOnItemSelectedListener true
+                false
+            }
+
+            btnnav.setOnItemSelectedListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.miProfile -> {
+                        val ProfileIntent = Intent(this, UserProfile::class.java)
+                        startActivity(ProfileIntent)
+                        true
+                    }
+
+                    else -> false
                 }
             }
-            false
-        }
+            fname = findViewById(R.id.firstname_welcome)
+            ProfilePic = findViewById(R.id.Profile_Pic)
 
-        btnnav.setOnItemSelectedListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.miProfile -> {
-                    val ProfileIntent = Intent(this, UserProfile::class.java)
-                    startActivity(ProfileIntent)
-                    true
+
+            val receiverIntent = intent // to get existing intent activity
+            var receivedFname: String? = receiverIntent.getStringExtra("KEY_FNAME")
+            var receivedLname: String? = receiverIntent.getStringExtra("KEY_LNAME")
+            var receivedImg: String? = receiverIntent.getStringExtra("KEY_IMG_PATH")
+            editor.putString("FIRST_NAME", receivedFname)
+            editor.putString("KEY_IMG_PATH", receivedImg)
+            editor.putString("LAST_NAME", receivedLname)
+            editor.apply()
+            receivedFname += ","
+            fname.setText(receivedFname)
+
+            loadImageIntoImageView(receivedImg, ProfilePic)
+
+        }
+        else if("ProfileActivity" == source){
+            fname = findViewById(R.id.firstname_welcome)
+            ProfilePic = findViewById(R.id.Profile_Pic)
+
+            var receivedFname : String? = sharedPref.getString("FIRST_NAME", "")
+            var receivedImg : String? = sharedPref.getString("KEY_IMG_PATH", "")
+            receivedFname += ","
+
+            if (receivedImg != null) {
+                Log.e("IMGPATH", receivedImg)
+            }
+
+            fname.setText(receivedFname)
+            loadImageIntoImageView(receivedImg, ProfilePic)
+
+            btnnav.setOnItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.miProfile -> {
+                        startActivity(Intent(applicationContext, UserProfile::class.java))
+                        overridePendingTransition(0, 0)
+                        return@setOnItemSelectedListener true
+                    }
+
+                    R.id.miHome -> {
+                        return@setOnItemSelectedListener true
+                    }
                 }
-                else -> false
+                false
             }
         }
-        fname = findViewById(R.id.firstname_welcome)
-        ProfilePic = findViewById(R.id.Profile_Pic)
-
-
-        val receiverIntent = intent // to get existing intent activity
-        var receivedFname: String? = receiverIntent.getStringExtra("KEY_FNAME")
-        var receivedLname: String? = receiverIntent.getStringExtra("KEY_LNAME")
-        var receivedImg: String? = receiverIntent.getStringExtra("KEY_IMG_PATH")
-        receivedFname += ","
-        fname.setText(receivedFname)
-
-        loadImageIntoImageView(receivedImg, ProfilePic)
     }
-
     private fun loadImageIntoImageView(imagePath: String?, imageView: ImageView) {
         if (imagePath != null) {
             // Use BitmapFactory to decode the image file
