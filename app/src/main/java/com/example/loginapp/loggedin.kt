@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.util.Base64
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import de.hdodenhof.circleimageview.CircleImageView
 import java.io.File
@@ -22,6 +23,11 @@ class loggedin : AppCompatActivity() {
         sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
         editor = sharedPref.edit()
         val img : String? = sharedPref.getString("KEY_IMG_PATH", "")
+        val UsernamePref : String? = sharedPref.getString("USERNAME", "")
+        val Username : TextView = findViewById(R.id.UsernameWelcome)
+        val Welcometext : String = "Hey $UsernamePref, is that you?"
+
+        Username.setText(Welcometext)
 
         val profilepic : CircleImageView = findViewById(R.id.Profile_Pic)
         loadImageIntoImageView(img, profilepic)
