@@ -8,12 +8,150 @@
     tools:context=".UserProfile"
     android:background="@drawable/notesbackground">
 
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/Profile_Pic"
+        android:layout_width="165dp"
+        android:layout_height="165dp"
+        android:layout_marginLeft="123dp"
+        android:layout_marginTop="35dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/me"
+        app:civ_border_color="#FFF"
+        app:civ_border_width="2dp" />
+
+    <TextView
+        android:layout_width="250dp"
+        android:layout_height="22dp"
+        android:layout_marginLeft="83dp"
+        android:layout_marginTop="203dp"
+        android:textSize="14sp"
+        android:textAlignment="center"
+        android:textStyle="italic"
+        android:textColor="#FAF7F7"
+        android:text="Click on image to update profile picture"
+        android:fontFamily="@font/ageo"/>
+
+    <ImageView
+        android:id="@+id/EditProfileBtn"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/baseline_edit_24"
+        android:layout_marginTop="300dp"
+        android:layout_marginLeft="345dp"/>
+
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="30dp"
+        android:text="Username:"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="300dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/ageo"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/UsernameProfile"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="195dp"
+        android:layout_marginTop="295dp"
+        android:background="@drawable/rounded_circle2"
+        android:hint="Username"
+        android:inputType="none"
+        android:padding="16dp"
+        android:textColor="#FAF7F7"
+        android:textColorHint="#FAF7F7"
+        android:textSize="14sp"/>
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="30dp"
+        android:text="First Name:"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="370dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/ageo"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/FirstNameProfile"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="195dp"
+        android:layout_marginTop="365dp"
+        android:background="@drawable/rounded_circle2"
+        android:hint="First Name"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColor="#FAF7F7"
+        android:textColorHint="#FAF7F7"
+        android:textSize="14sp" />
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="30dp"
+        android:text="Last Name:"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="440dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/ageo"
+        android:textColor="@color/white"/>
+
+    <EditText
+        android:id="@+id/LastNameProfile"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="195dp"
+        android:layout_marginTop="435dp"
+        android:background="@drawable/rounded_circle2"
+        android:hint="Last Name"
+        android:inputType="text"
+        android:padding="16dp"
+        android:textColor="#FAF7F7"
+        android:textColorHint="#FAF7F7"
+        android:textSize="14sp" />
+    <TextView
+        android:layout_width="155dp"
+        android:layout_height="30dp"
+        android:text="Password:"
+        android:layout_marginLeft="26dp"
+        android:layout_marginTop="510dp"
+        android:textSize="30sp"
+        android:fontFamily="@font/ageo"
+        android:textColor="@color/white"/>
+    <EditText
+        android:id="@+id/PasswordProfile"
+        android:layout_width="120dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="195dp"
+        android:layout_marginTop="505dp"
+        android:background="@drawable/rounded_circle2"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:padding="16dp"
+        android:textColor="#FAF7F7"
+        android:textColorHint="#FAF7F7"
+        android:textSize="14sp" />
+    <ImageView
+        android:id="@+id/ShowPassword"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@drawable/baseline_remove_red_eye_24"
+        android:layout_marginTop="515dp"
+        android:layout_marginLeft="345dp"/>
+    <Button
+        android:id="@+id/SavechangesButton"
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:text="Save Changes"
+        android:layout_marginTop="480dp"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#3B84F1"/>
+
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|fill_horizontal"
-        android:layout_marginBottom="0dp"
         app:fabCradleMargin="7dp"
         app:fabCradleVerticalOffset="2dp"
         app:fabCradleRoundedCornerRadius="13dp"
