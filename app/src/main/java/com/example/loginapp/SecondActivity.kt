@@ -10,7 +10,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
-
 class SecondActivity : AppCompatActivity() {
     lateinit var Addbtn: ImageButton
     lateinit var fname: TextView
