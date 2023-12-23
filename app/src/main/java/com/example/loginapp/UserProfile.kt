@@ -11,6 +11,7 @@ import android.os.Looper
 import android.text.InputType
 import android.text.method.PasswordTransformationMethod
 import android.util.Base64
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -49,13 +50,11 @@ class UserProfile : AppCompatActivity() {
         var PasswordProfile : EditText = findViewById<EditText>(R.id.PasswordProfile)
         val ShowPassword : ImageView = findViewById(R.id.ShowPassword)
         var Savechanges : Button = findViewById(R.id.SavechangesButton)
-        var EditProfileBtn : ImageView = findViewById(R.id.EditProfileBtn)
+        var InfoBtn : ImageView = findViewById(R.id.InfoBtn)
 
         imgPath = sharedPref.getString("KEY_IMG_PATH", "")
 
-        PasswordProfile.inputType = InputType.TYPE_NULL
-        PasswordProfile.isClickable = false
-        PasswordProfile.transformationMethod = PasswordTransformationMethod.getInstance()
+        PasswordProfile.inputType = InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
         PasswordProfile.setText(Password)
         UsernameProfile.setText(Username)
         FirstnameProfile.setText(FirstName)
@@ -63,48 +62,40 @@ class UserProfile : AppCompatActivity() {
 
         loadImageIntoImageView(imgPath, ProfilePic)
 
-        UsernameProfile.inputType = InputType.TYPE_NULL
-        UsernameProfile.isClickable = false
-
-        FirstnameProfile.inputType = InputType.TYPE_NULL
-        FirstnameProfile.isClickable = false
-
-        LastnameProfile.inputType = InputType.TYPE_NULL
-        LastnameProfile.isClickable = false
-
-
+        UsernameProfile.isEnabled = false
 
         btnnav = findViewById(R.id.bottomNavigationView)
         btnnav.selectedItemId = R.id.miProfile
 
         ShowPassword.setOnClickListener {// Eye on show password
-            PasswordProfile.inputType =
-                InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD
-            PasswordProfile.isClickable = false
-            PasswordProfile.isEnabled = false
-
-            Handler(Looper.getMainLooper()).postDelayed({
-                PasswordProfile.inputType =
-                    InputType.TYPE_CLASS_TEXT or InputType.TYPE_TEXT_VARIATION_PASSWORD
-            }, 1500)
+            PasswordProfile.inputType = InputType.TYPE_CLASS_TEXT
         }
         ProfilePic.setOnClickListener {
             imagePickerLauncher.launch("image/*")
+        }
+        InfoBtn.setOnClickListener {
+            Toast.makeText(this, "Username cannot be changed!", Toast.LENGTH_SHORT).show()
         }
         Savechanges.setOnClickListener {
             val HomeIntent = Intent(this, SecondActivity::class.java)
             val fname : String = FirstnameProfile.text.toString()
             val lname : String = LastnameProfile.text.toString()
-            val NewLocalImgPath = saveImageLocally(selectedImageBase64)
+
+            if(selectedImageBase64 != null) // Not to return null on img
+            {
+                val NewLocalImgPath = saveImageLocally(selectedImageBase64)
+                editor.putString("KEY_IMG_PATH", NewLocalImgPath)
+                editor.apply()
+            }
+
             HomeIntent.putExtra("source", "ProfileActivity")
             editor.putString("FIRST_NAME", fname)
             editor.putString("LAST_NAME", lname)
-            editor.putString("KEY_IMG_PATH", NewLocalImgPath)
             editor.apply()
+            // Function to update parameters to the servers
             Toast.makeText(this, "Changed successfully", Toast.LENGTH_SHORT).show()
             startActivity(HomeIntent)
         }
-
         btnnav.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.miHome -> {
@@ -160,6 +151,10 @@ class UserProfile : AppCompatActivity() {
                 }
             }
         }
+    private fun UpdateServer(fname: String, lname: String, password: String, img: String)
+    {
+        // Need to update the server.
+    }
     fun convertBitmapToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)
@@ -167,6 +162,9 @@ class UserProfile : AppCompatActivity() {
         return Base64.encodeToString(byteArray, Base64.DEFAULT)
     }
     private fun saveImageLocally(base64String: String?): String {
+        if (base64String.isNullOrEmpty())
+            return ""
+
         // Decode Base64 to byte array
         val decodedBytes = Base64.decode(base64String, Base64.DEFAULT)
 

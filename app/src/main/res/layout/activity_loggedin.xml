@@ -17,16 +17,49 @@
         android:scaleType="centerCrop"
         android:src="@drawable/me"
         app:civ_border_color="#FFF"
-        app:civ_border_width="2dp" />
+        app:civ_border_width="2dp"
+        android:layout_centerHorizontal="true"/>
     <TextView
         android:id="@+id/UsernameWelcome"
-        android:layout_width="250dp"
+        android:layout_width="406dp"
         android:layout_height="40dp"
-        android:layout_marginLeft="97dp"
         android:layout_marginTop="310dp"
         android:textSize="28dp"
         android:fontFamily="@font/ageo"
         android:text="Hey qa is that you?"
-        android:textColor="@color/white"/>
+        android:textColor="@color/white"
+        android:gravity="center"/>
+    <Button
+        android:id="@+id/Continuebtn"
+        android:layout_width="300dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="370dp"
+        android:layout_marginLeft="50dp"
+        android:backgroundTint="#3B84F1"
+        android:text="Continue!"
+        android:textSize="26dp"
+        android:textColor="@color/white"
+        android:fontFamily="@font/ageo"
+        android:layout_centerHorizontal="true"/>
+    <Button
+        android:id="@+id/LogoutButton"
+        android:layout_width="240dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="440dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/white"
+        android:text="Logout"
+        android:textSize="24dp"
+        android:textColor="#3B84F1"
+        android:fontFamily="@font/ageo"/>
 
+    <TextView
+        android:layout_width="230dp"
+        android:layout_height="30dp"
+        android:text="All rights reserved @ Hade Bayaa."
+        android:textSize="12sp"
+        android:textColor="@color/white"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="520dp"
+        android:gravity="center"/>
 </RelativeLayout>

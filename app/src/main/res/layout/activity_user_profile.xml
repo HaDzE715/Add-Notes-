@@ -32,10 +32,10 @@
         android:fontFamily="@font/ageo"/>
 
     <ImageView
-        android:id="@+id/EditProfileBtn"
+        android:id="@+id/InfoBtn"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/baseline_edit_24"
+        android:src="@drawable/baseline_info_24"
         android:layout_marginTop="300dp"
         android:layout_marginLeft="345dp"/>
 

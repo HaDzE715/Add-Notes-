@@ -19,8 +19,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var registerBtn : Button
 
 
-    override fun onCreate(savedInstanceState: Bundle?)
-    {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -30,48 +29,46 @@ class MainActivity : AppCompatActivity() {
         registerBtn = findViewById(R.id.register_btn)
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
-        val username : String? = sharedPref.getString("USERNAME", "")
+        val username: String? = sharedPref.getString("USERNAME", null)
 
-        if (username != null && username != "") {
-            Log.e("USR", username)
+        if (username != null) {
             startActivity(Intent(this, loggedin::class.java))
+            finish()
         }
+        else {
+            loginBtn.setOnClickListener {
+                val username = usernameInput.text.toString()
+                val password = passwordInput.text.toString()
+                val loginData = LoginData(username, password)
 
-        loginBtn.setOnClickListener {
-            val username = usernameInput.text.toString()
-            val password = passwordInput.text.toString()
-            val loginData = LoginData(username, password)
+                performLogin(loginData) { responseBody ->
+                    val responseBodyerror: String? = responseBody.error
+                    val responseBodyfname: String? = responseBody.fname
+                    val responseBodylname: String? = responseBody.lname
+                    val responseBodyimg: String? = responseBody.img
+//                val decodedImg : ByteArray = decodeBase64(responseBodyimg)
 
-            performLogin(loginData){
-                responseBody ->
-                val responseBodyerror : String? = responseBody.error
-                val responseBodyfname : String? = responseBody.fname
-                val responseBodylname : String? = responseBody.lname
-                val responseBodyimg : String? = responseBody.img
-                val decodedImg : ByteArray = decodeBase64(responseBodyimg)
+                    editor.putString("USERNAME", username)
+                    editor.putString("PASSWORD", password)
+                    editor.apply()
 
-                editor.putString("USERNAME", username)
-                editor.putString("PASSWORD", password)
-                editor.apply()
-
-                if(responseBodyerror.isNullOrEmpty()){
-                    val localImagePath = saveImageLocally(responseBodyimg)
-
-                    val senderIntent = Intent(this, SecondActivity::class.java)
-                    senderIntent.putExtra("KEY_FNAME", responseBodyfname.toString())
-                    senderIntent.putExtra("KEY_LNAME", responseBodylname.toString())
-                    senderIntent.putExtra("KEY_IMG_PATH", localImagePath)
-                    senderIntent.putExtra("source", "LoginActivity")
-                    startActivity(senderIntent)
-                    finish()
-                }
-                else{
-                    Log.e("Logging in", "Failed!")
+                    if (responseBodyerror.isNullOrEmpty()) {
+                        val localImagePath = saveImageLocally(responseBodyimg)
+                        val senderIntent = Intent(this, SecondActivity::class.java)
+                        senderIntent.putExtra("KEY_FNAME", responseBodyfname.toString())
+                        senderIntent.putExtra("KEY_LNAME", responseBodylname.toString())
+                        senderIntent.putExtra("KEY_IMG_PATH", localImagePath)
+                        senderIntent.putExtra("source", "LoginActivity")
+                        startActivity(senderIntent)
+                        finish()
+                    } else {
+                        Log.e("Logging in", "Failed!")
+                    }
                 }
             }
-    }
-        registerBtn.setOnClickListener {
-            startActivity(Intent(this, RegisterActivity::class.java))
+            registerBtn.setOnClickListener {
+                startActivity(Intent(this, RegisterActivity::class.java))
+            }
         }
     }
     fun decodeBase64(encodedString: String?): ByteArray {
