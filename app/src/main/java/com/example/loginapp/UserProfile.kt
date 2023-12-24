@@ -6,12 +6,8 @@ import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
 import android.text.InputType
-import android.text.method.PasswordTransformationMethod
 import android.util.Base64
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -104,6 +100,8 @@ class UserProfile : AppCompatActivity() {
                     HomeIntent.putExtra("KEY_FNAME", FirstName)
                     HomeIntent.putExtra("KEY_IMG_PATH", imgPath)
                     startActivity(HomeIntent)
+                    overridePendingTransition(0, 0)
+                    return@setOnItemSelectedListener true
                 }
                 R.id.miProfile -> {
                     return@setOnItemSelectedListener true
@@ -113,6 +111,7 @@ class UserProfile : AppCompatActivity() {
         }
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener {
+            btnnav.selectedItemId = R.id.placeholder
             startActivity(Intent(this, AddNote::class.java))
         }
     }

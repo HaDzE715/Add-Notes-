@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.BitmapFactory
 import android.os.Bundle
-import android.util.Log
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
@@ -18,6 +17,7 @@ class SecondActivity : AppCompatActivity() {
     lateinit var fname: TextView
     lateinit var ProfilePic: ImageView
     lateinit var btnnav: BottomNavigationView
+    lateinit var fab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class SecondActivity : AppCompatActivity() {
         val editor = sharedPref.edit()
 
         if ("LoginActivity" == source) {
-            val fab: FloatingActionButton = findViewById(R.id.fab)
+            fab = findViewById(R.id.fab)
             fab.setOnClickListener {
                 startActivity(Intent(this, AddNote::class.java))
             }
@@ -91,6 +91,12 @@ class SecondActivity : AppCompatActivity() {
 
             fname.setText(receivedFname)
             loadImageIntoImageView(receivedImg, ProfilePic)
+
+            fab = findViewById(R.id.fab)
+            fab.setOnClickListener {
+                btnnav.selectedItemId = R.id.placeholder
+                startActivity(Intent(this, AddNote::class.java))
+            }
 
             btnnav.setOnItemSelectedListener { item ->
                 when (item.itemId) {
