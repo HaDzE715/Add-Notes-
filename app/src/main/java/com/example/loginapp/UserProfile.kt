@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.text.InputType
 import android.util.Base64
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
@@ -30,13 +31,14 @@ class UserProfile : AppCompatActivity() {
     private lateinit var editor: SharedPreferences.Editor
     private lateinit var sharedPref: SharedPreferences
     var imgPath: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_user_profile)
         sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
         editor = sharedPref.edit()
         val FirstName = sharedPref.getString("FIRST_NAME", "N")
-        val Username = sharedPref.getString("USERNAME", "")
+        val Username : String? = sharedPref.getString("USERNAME", "")
         val Password = sharedPref.getString("PASSWORD", "")
         val LastName = sharedPref.getString("LAST_NAME", "")
         var ProfilePic : ImageView = findViewById(R.id.Profile_Pic)
@@ -47,6 +49,8 @@ class UserProfile : AppCompatActivity() {
         val ShowPassword : ImageView = findViewById(R.id.ShowPassword)
         var Savechanges : Button = findViewById(R.id.SavechangesButton)
         var InfoBtn : ImageView = findViewById(R.id.InfoBtn)
+        var userData : updateData?
+
 
         imgPath = sharedPref.getString("KEY_IMG_PATH", "")
 
@@ -76,19 +80,38 @@ class UserProfile : AppCompatActivity() {
             val HomeIntent = Intent(this, SecondActivity::class.java)
             val fname : String = FirstnameProfile.text.toString()
             val lname : String = LastnameProfile.text.toString()
+            val pass : String = PasswordProfile.text.toString()
+            var OldImage : String? = sharedPref.getString("OLDIMAGE", "")
 
-            if(selectedImageBase64 != null) // Not to return null on img
+            if(selectedImageBase64 != null) {
+                userData = Username?.let { it1 -> updateData(fname, lname, it1, pass,
+                    selectedImageBase64!!
+                ) }
+            }
+            else
+            {
+                userData = Username?.let { it1 -> updateData(fname, lname, it1, pass, OldImage!!) }
+            }
+            if(selectedImageBase64 != null)
             {
                 val NewLocalImgPath = saveImageLocally(selectedImageBase64)
+                Log.e("LOCAL", NewLocalImgPath)
                 editor.putString("KEY_IMG_PATH", NewLocalImgPath)
                 editor.apply()
             }
-
             HomeIntent.putExtra("source", "ProfileActivity")
             editor.putString("FIRST_NAME", fname)
             editor.putString("LAST_NAME", lname)
             editor.apply()
-            // Function to update parameters to the servers
+            if (userData != null) {
+                updateUserDetails(userData!!) { success, _ ->
+                    if (success) {
+                        Log.e("UpdatingServer", "SUCESS!")
+                    } else {
+                        Log.e("UpdatingServer", "FAILED!")
+                    }
+                }
+            }
             Toast.makeText(this, "Changed successfully", Toast.LENGTH_SHORT).show()
             startActivity(HomeIntent)
         }
@@ -150,10 +173,6 @@ class UserProfile : AppCompatActivity() {
                 }
             }
         }
-    private fun UpdateServer(fname: String, lname: String, password: String, img: String)
-    {
-        // Need to update the server.
-    }
     fun convertBitmapToBase64(bitmap: Bitmap): String {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream)

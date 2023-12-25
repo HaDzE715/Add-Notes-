@@ -46,18 +46,22 @@ class MainActivity : AppCompatActivity() {
                     val responseBodyfname: String? = responseBody.fname
                     val responseBodylname: String? = responseBody.lname
                     val responseBodyimg: String? = responseBody.img
-//                val decodedImg : ByteArray = decodeBase64(responseBodyimg)
+                    val responseBodyLastLogin: String? = responseBody.last_login
 
+                    editor.putString("OLDIMAGE", responseBodyimg)
                     editor.putString("USERNAME", username)
                     editor.putString("PASSWORD", password)
                     editor.apply()
-
+                    if (responseBodyLastLogin != null) {
+                        Log.e("LastLog", responseBodyLastLogin)
+                    }
                     if (responseBodyerror.isNullOrEmpty()) {
                         val localImagePath = saveImageLocally(responseBodyimg)
                         val senderIntent = Intent(this, SecondActivity::class.java)
                         senderIntent.putExtra("KEY_FNAME", responseBodyfname.toString())
                         senderIntent.putExtra("KEY_LNAME", responseBodylname.toString())
                         senderIntent.putExtra("KEY_IMG_PATH", localImagePath)
+                        senderIntent.putExtra("KEY_LAST_LOGIN", responseBodyLastLogin)
                         senderIntent.putExtra("source", "LoginActivity")
                         startActivity(senderIntent)
                         finish()
