@@ -33,13 +33,10 @@ class SecondActivity : AppCompatActivity() {
         btnnav.background = null
         val source = intent.getStringExtra("source")
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
-        val notesContainer = findViewById<LinearLayout>(R.id.notesContainer)
-        val notes = getNotesProperty()
 
         val editor = sharedPref.edit()
 
         if ("LoginActivity" == source) {
-            displayNotes(notesContainer)
             fab = findViewById(R.id.fab)
             fab.setOnClickListener {
                 startActivity(Intent(this, AddNote::class.java))
@@ -95,7 +92,6 @@ class SecondActivity : AppCompatActivity() {
 
         }
         else if("ProfileActivity" == source){
-            displayNotes(notesContainer)
             fname = findViewById(R.id.firstname_welcome)
             ProfilePic = findViewById(R.id.Profile_Pic)
             lastlogin = findViewById(R.id.last_login)
@@ -148,39 +144,6 @@ class SecondActivity : AppCompatActivity() {
                 // You might want to set a placeholder image or show an error message
                 imageView.setImageResource(R.drawable.placeholder_image)
             }
-        }
-    }
-    private fun getNotesProperty(): List<String> {
-        val sharedPreferences = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
-        val notesJson = sharedPreferences.getString("notes", "[]")
-
-        // Convert the JSON string to a list of notes
-        return Gson().fromJson(notesJson, object : TypeToken<List<String>>() {}.type) ?: emptyList()
-    }
-
-    private fun displayNotes(notesContainer: LinearLayout) {
-        val notes = getNotesProperty()
-
-        for (note in notes) {
-            val noteTextView = TextView(this)
-
-            // Create new LayoutParams
-            val layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-            noteTextView.layoutParams = layoutParams
-            noteTextView.text = note
-            noteTextView.textSize = 18f
-            noteTextView.setTextColor(Color.WHITE)
-            noteTextView.setTypeface(Typeface.DEFAULT_BOLD)
-            noteTextView.typeface = Typeface.create("@font/ageo", Typeface.NORMAL)
-
-            val marginLayoutParams = noteTextView.layoutParams as LinearLayout.LayoutParams
-            marginLayoutParams.setMargins(70, 10, 0, 0)
-
-            notesContainer.addView(noteTextView)
         }
     }
 }

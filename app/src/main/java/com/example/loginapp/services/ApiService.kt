@@ -1,6 +1,7 @@
 package com.example.loginapp.services
 
 import com.example.loginapp.LoginData
+import com.example.loginapp.Note
 import com.example.loginapp.RegistrationData
 import com.example.loginapp.UserApiResponse
 import com.example.loginapp.updateData
@@ -17,5 +18,8 @@ interface ApiService {
 
     @POST("/updateUser")
     suspend fun updateUser(@Body userData: updateData): Response<Void>
+
+    @POST("/addNote")
+    suspend fun addNote(@Body note: Note): Response<Void>
 
 }
