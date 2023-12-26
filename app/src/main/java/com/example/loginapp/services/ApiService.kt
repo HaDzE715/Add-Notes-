@@ -3,6 +3,7 @@ package com.example.loginapp.services
 import com.example.loginapp.LoginData
 import com.example.loginapp.RegistrationData
 import com.example.loginapp.UserApiResponse
+import com.example.loginapp.updateData
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
@@ -14,5 +15,7 @@ interface ApiService {
     @POST("/login")
     suspend fun loginUser(@Body loginData: LoginData): Response<UserApiResponse>
 
+    @POST("/updateUser")
+    suspend fun updateUser(@Body userData: updateData): Response<Void>
 
 }

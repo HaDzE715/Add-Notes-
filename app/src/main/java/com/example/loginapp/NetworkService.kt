@@ -1,26 +1,23 @@
 package com.example.loginapp
 
-import android.content.Intent
 import android.util.Log
 import com.example.loginapp.NetworkService.apiService
 import com.example.loginapp.services.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
-import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object NetworkService {
     val apiService: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5000")
+            .baseUrl("http://10.0.2.2:5000") // Change to 10.0.3.2 when using GennyMotion Emulator
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
     }
-
-    fun registerUser(
+fun registerUser(
         registrationData: RegistrationData,
         onRegistrationComplete: (Boolean, String?) -> Unit
     ) {
@@ -42,8 +39,6 @@ object NetworkService {
         }
     }
 }
-
-
 fun performLogin(loginData: LoginData, onLoginComplete: (UserApiResponse) -> Unit) {
     // Create a LoginData object with the user's input
     // Launch a coroutine to make the network request
@@ -55,6 +50,7 @@ fun performLogin(loginData: LoginData, onLoginComplete: (UserApiResponse) -> Uni
             // Check if the login was successful
             if (response.isSuccessful)
             {
+
                 val responseBody: UserApiResponse? = response.body()
                 if (responseBody != null)
                 {
@@ -69,6 +65,27 @@ fun performLogin(loginData: LoginData, onLoginComplete: (UserApiResponse) -> Uni
         } catch (e: Exception) {
             // Handle network or other exceptions
             Log.e("Login", "Network error: ${e.message}")
+        }
+    }
+}
+fun updateUserDetails(
+    userData: updateData,
+    onUpdateComplete: (Boolean, String?) -> Unit
+) {
+    GlobalScope.launch(Dispatchers.IO) {
+        try {
+            val response = apiService.updateUser(userData)
+
+            if (response.isSuccessful) {
+                onUpdateComplete(true, "User details updated successfully")
+            } else {
+                val errorMessage = response.message()
+                Log.e("UpdateUser", "User update failed with error: $errorMessage")
+                onUpdateComplete(false, "User update failed: $errorMessage")
+            }
+        } catch (e: Exception) {
+            Log.e("UpdateUser", "Network error: ${e.message}")
+            onUpdateComplete(false, "Network error: ${e.message}")
         }
     }
 }
