@@ -33,13 +33,10 @@ class SecondActivity : AppCompatActivity() {
         btnnav.background = null
         val source = intent.getStringExtra("source")
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
-        val notesContainer = findViewById<LinearLayout>(R.id.notesContainer)
-        val notes = getNotesProperty()
 
         val editor = sharedPref.edit()
 
         if ("LoginActivity" == source) {
-            displayNotes(notesContainer)
             fab = findViewById(R.id.fab)
             fab.setOnClickListener {
                 startActivity(Intent(this, AddNote::class.java))
@@ -59,7 +56,6 @@ class SecondActivity : AppCompatActivity() {
                 }
                 false
             }
-
             btnnav.setOnItemSelectedListener { menuItem ->
                 when (menuItem.itemId) {
                     R.id.miProfile -> {
@@ -67,7 +63,6 @@ class SecondActivity : AppCompatActivity() {
                         startActivity(ProfileIntent)
                         true
                     }
-
                     else -> false
                 }
             }
@@ -95,7 +90,6 @@ class SecondActivity : AppCompatActivity() {
 
         }
         else if("ProfileActivity" == source){
-            displayNotes(notesContainer)
             fname = findViewById(R.id.firstname_welcome)
             ProfilePic = findViewById(R.id.Profile_Pic)
             lastlogin = findViewById(R.id.last_login)
@@ -105,9 +99,7 @@ class SecondActivity : AppCompatActivity() {
             var receivedLastLogin : String? = sharedPref.getString("KEY_LAST_LOGIN", "")
             receivedFname += ","
             receivedLastLogin = "Last logged in $receivedLastLogin."
-            if (receivedLastLogin != null) {
-                Log.e("LASTLGN", receivedLastLogin)
-            }
+
             fname.setText(receivedFname)
             lastlogin.setText(receivedLastLogin)
             loadImageIntoImageView(receivedImg, ProfilePic)
