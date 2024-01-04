@@ -68,10 +68,24 @@ fun performLogin(loginData: LoginData, onLoginComplete: (UserApiResponse) -> Uni
         }
     }
 }
-fun updateUserDetails(
-    userData: updateData,
-    onUpdateComplete: (Boolean, String?) -> Unit
-) {
+
+fun addNote(note: Note, onNoteComplete: (Boolean, String?) -> Unit) {
+    GlobalScope.launch(Dispatchers.IO) {
+        try {
+            val response = apiService.addNote(note)
+
+            if (response.isSuccessful) {
+                onNoteComplete(true, "Note sent successfully")
+            } else {
+                val errorMessage = response.message()
+                onNoteComplete(false, "Note sending failed!: $errorMessage")
+            }
+        } catch (e: Exception) {
+            onNoteComplete(false, "Network error: ${e.message}")
+        }
+    }
+}
+fun updateUserDetails(userData: updateData, onUpdateComplete: (Boolean, String?) -> Unit) {
     GlobalScope.launch(Dispatchers.IO) {
         try {
             val response = apiService.updateUser(userData)

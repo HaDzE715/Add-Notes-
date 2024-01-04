@@ -26,10 +26,12 @@ class SecondActivity : AppCompatActivity() {
     lateinit var btnnav: BottomNavigationView
     lateinit var fab: FloatingActionButton
     lateinit var lastlogin: TextView
+    lateinit var LgoutBtn: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
         btnnav = findViewById(com.example.loginapp.R.id.bottomNavigationView)
+        LgoutBtn = findViewById(R.id.LogoutBtn)
         btnnav.background = null
         val source = intent.getStringExtra("source")
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
@@ -40,6 +42,23 @@ class SecondActivity : AppCompatActivity() {
             fab = findViewById(R.id.fab)
             fab.setOnClickListener {
                 startActivity(Intent(this, AddNote::class.java))
+            }
+
+            LgoutBtn.setOnClickListener {
+                // Clear user credentials
+                try {
+                    // Clear user credentials
+                    editor.remove("USERNAME")
+                    editor.remove("PASSWORD")
+                    editor.apply()
+                    // Start the MainActivity
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish() // Optional: finish the current activity
+                } catch (e: Exception) {
+                    Log.e("Logout", "Error during logout: ${e.message}", e)
+                    // Handle the exception as needed
+                }
             }
 
             btnnav.setOnItemSelectedListener { item ->
@@ -111,6 +130,23 @@ class SecondActivity : AppCompatActivity() {
                 startActivity(Intent(this, AddNote::class.java))
             }
 
+            LgoutBtn.setOnClickListener {
+                // Clear user credentials
+                try {
+                    // Clear user credentials
+                    editor.remove("USERNAME")
+                    editor.remove("PASSWORD")
+                    editor.apply()
+                    // Start the MainActivity
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish() // Optional: finish the current activity
+                } catch (e: Exception) {
+                    Log.e("Logout", "Error during logout: ${e.message}", e)
+                    // Handle the exception as needed
+                }
+            }
+
             btnnav.setOnItemSelectedListener { item ->
                 when (item.itemId) {
                     R.id.miProfile -> {
@@ -140,39 +176,6 @@ class SecondActivity : AppCompatActivity() {
                 // You might want to set a placeholder image or show an error message
                 imageView.setImageResource(R.drawable.placeholder_image)
             }
-        }
-    }
-    private fun getNotesProperty(): List<String> {
-        val sharedPreferences = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
-        val notesJson = sharedPreferences.getString("notes", "[]")
-
-        // Convert the JSON string to a list of notes
-        return Gson().fromJson(notesJson, object : TypeToken<List<String>>() {}.type) ?: emptyList()
-    }
-
-    private fun displayNotes(notesContainer: LinearLayout) {
-        val notes = getNotesProperty()
-
-        for (note in notes) {
-            val noteTextView = TextView(this)
-
-            // Create new LayoutParams
-            val layoutParams = LinearLayout.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.WRAP_CONTENT
-            )
-
-            noteTextView.layoutParams = layoutParams
-            noteTextView.text = note
-            noteTextView.textSize = 18f
-            noteTextView.setTextColor(Color.WHITE)
-            noteTextView.setTypeface(Typeface.DEFAULT_BOLD)
-            noteTextView.typeface = Typeface.create("@font/ageo", Typeface.NORMAL)
-
-            val marginLayoutParams = noteTextView.layoutParams as LinearLayout.LayoutParams
-            marginLayoutParams.setMargins(70, 10, 0, 0)
-
-            notesContainer.addView(noteTextView)
         }
     }
 }

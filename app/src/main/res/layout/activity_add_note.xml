@@ -17,29 +17,7 @@
         android:layout_marginTop="30dp"
         android:textColor="#D0FBFBFB"
         android:layout_marginLeft="40dp" />
-    <TextView
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginLeft="10dp"
-        android:fontFamily="@font/ageo"
-        android:text="Subject:"
-        android:textSize="24sp"
-        android:layout_marginTop="300dp"
-        android:textStyle="bold"/>
 
-    <EditText
-        android:id="@+id/SubjectnoteInput"
-        android:layout_width="250dp"
-        android:layout_height="50dp"
-        android:hint="Enter your note's subject"
-        android:inputType="text"
-        android:gravity="center"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="290dp"
-        android:layout_marginLeft="130dp"
-        android:textSize="14sp"
-        android:background="@drawable/rounded_box"
-        android:textStyle="italic"/>
     <TextView
         android:layout_width="120dp"
         android:layout_height="40dp"
@@ -47,20 +25,20 @@
         android:fontFamily="@font/ageo"
         android:text="Your note:"
         android:textSize="24sp"
-        android:layout_marginTop="420dp"
+        android:layout_marginTop="400dp"
         android:textStyle="bold"/>
     <EditText
         android:id="@+id/noteInput"
         android:layout_width="250dp"
-        android:layout_height="150dp"
+        android:layout_height="190dp"
         android:hint="Enter your note here"
-        android:inputType="text"
-        android:gravity="center"
+        android:inputType="textMultiLine"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="360dp"
+        android:layout_marginTop="320dp"
         android:layout_marginLeft="130dp"
         android:background="@drawable/rounded_box"
-        android:textStyle="italic"/>
+        android:textStyle="italic"
+        android:padding="8dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
