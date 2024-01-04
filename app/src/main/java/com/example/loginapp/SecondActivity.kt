@@ -26,20 +26,38 @@ class SecondActivity : AppCompatActivity() {
     lateinit var btnnav: BottomNavigationView
     lateinit var fab: FloatingActionButton
     lateinit var lastlogin: TextView
+    lateinit var LgoutBtn: ImageView
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
         btnnav = findViewById(com.example.loginapp.R.id.bottomNavigationView)
+        LgoutBtn = findViewById(R.id.LogoutBtn)
         btnnav.background = null
         val source = intent.getStringExtra("source")
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
-
         val editor = sharedPref.edit()
 
         if ("LoginActivity" == source) {
             fab = findViewById(R.id.fab)
             fab.setOnClickListener {
                 startActivity(Intent(this, AddNote::class.java))
+            }
+
+            LgoutBtn.setOnClickListener {
+                // Clear user credentials
+                try {
+                    // Clear user credentials
+                    editor.remove("USERNAME")
+                    editor.remove("PASSWORD")
+                    editor.apply()
+                    // Start the MainActivity
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish() // Optional: finish the current activity
+                } catch (e: Exception) {
+                    Log.e("Logout", "Error during logout: ${e.message}", e)
+                    // Handle the exception as needed
+                }
             }
 
             btnnav.setOnItemSelectedListener { item ->
@@ -113,6 +131,23 @@ class SecondActivity : AppCompatActivity() {
             fab.setOnClickListener {
                 btnnav.selectedItemId = R.id.placeholder
                 startActivity(Intent(this, AddNote::class.java))
+            }
+
+            LgoutBtn.setOnClickListener {
+                // Clear user credentials
+                try {
+                    // Clear user credentials
+                    editor.remove("USERNAME")
+                    editor.remove("PASSWORD")
+                    editor.apply()
+                    // Start the MainActivity
+                    val intent = Intent(this, MainActivity::class.java)
+                    startActivity(intent)
+                    finish() // Optional: finish the current activity
+                } catch (e: Exception) {
+                    Log.e("Logout", "Error during logout: ${e.message}", e)
+                    // Handle the exception as needed
+                }
             }
 
             btnnav.setOnItemSelectedListener { item ->

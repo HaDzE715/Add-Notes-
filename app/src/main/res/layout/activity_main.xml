@@ -74,36 +74,36 @@
             android:id="@+id/register_btn"
             android:onClick="sendMessage"
             app:backgroundTint="@null"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Social Login"
-            android:textSize="18sp"
-            android:textColor="@color/white"
-            android:layout_marginTop="32sp"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            android:gravity="center"
-            android:id="@+id/linearLayout">
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Social Login"-->
+<!--            android:textSize="18sp"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:layout_marginTop="32sp"/>-->
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="8dp"-->
+<!--            android:gravity="center"-->
+<!--            android:id="@+id/linearLayout">-->
 
-            <ImageView
-                android:layout_width="64dp"
-                android:layout_height="64dp"
-                android:layout_margin="16dp"
-                android:id="@+id/facebook_btn"
-                android:src="@drawable/facebook"/>
+<!--            <ImageView-->
+<!--                android:layout_width="64dp"-->
+<!--                android:layout_height="64dp"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:id="@+id/facebook_btn"-->
+<!--                android:src="@drawable/facebook"/>-->
 
-            <ImageView
-                android:id="@+id/linkedin_btn"
-                android:layout_width="76dp"
-                android:layout_height="64dp"
-                android:layout_margin="16dp"
-                android:src="@drawable/lnkdn"/>
+<!--            <ImageView-->
+<!--                android:id="@+id/linkedin_btn"-->
+<!--                android:layout_width="76dp"-->
+<!--                android:layout_height="64dp"-->
+<!--                android:layout_margin="16dp"-->
+<!--                android:src="@drawable/lnkdn"/>-->
 
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
     </LinearLayout>
 </RelativeLayout>

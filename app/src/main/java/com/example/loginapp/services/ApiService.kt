@@ -7,7 +7,9 @@ import com.example.loginapp.UserApiResponse
 import com.example.loginapp.updateData
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface ApiService {
     @POST("/signup")
@@ -21,5 +23,8 @@ interface ApiService {
 
     @POST("/addNote")
     suspend fun addNote(@Body note: Note): Response<Void>
+
+    @GET("/getNotes")
+    suspend fun getNotes(@Query("username") username: String): Response<List<Note>>
 
 }

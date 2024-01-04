@@ -13,7 +13,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 class AddNote : AppCompatActivity() {
     lateinit var addNote: Button
     lateinit var note: EditText
-    lateinit var subject : EditText
     lateinit var btnnav : BottomNavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,18 +22,16 @@ class AddNote : AppCompatActivity() {
 
         addNote = findViewById(R.id.AddNote)
         note = findViewById(R.id.noteInput)
-        subject = findViewById(R.id.SubjectnoteInput)
         btnnav = findViewById(R.id.bottomNavigationView)
         btnnav.selectedItemId = R.id.placeholder
 
 
         addNote.setOnClickListener {
             val noteContent = note.text.toString()
-            val subjectContent = subject.text.toString()
             val Username = sharedPref.getString("USERNAME", "")
             val note = Username?.let { it1 -> Note(it1, noteContent) }
 
-            if(noteContent.isNullOrEmpty() || subjectContent.isNullOrEmpty()) {
+            if(noteContent.isNullOrEmpty()) {
                 Toast.makeText(this, "You didn't type a note or subject!", Toast.LENGTH_SHORT)
                     .show()
             }
