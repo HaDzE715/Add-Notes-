@@ -1,14 +1,16 @@
-package com.example.loginapp
+  package com.example.loginapp
 
+import android.content.Intent
 import android.util.Log
 import com.example.loginapp.NetworkService.apiService
 import com.example.loginapp.services.ApiService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-
+import okhttp3.ResponseBody
 object NetworkService {
     val apiService: ApiService by lazy {
         Retrofit.Builder()
@@ -103,4 +105,27 @@ fun updateUserDetails(userData: updateData, onUpdateComplete: (Boolean, String?)
         }
     }
 }
+fun fetchNotes(username: String, onNotesFetched: (List<String>?, String?) -> Unit) {
+      GlobalScope.launch(Dispatchers.IO) {
+          try {
+              val response = apiService.getNotes(username)
+
+              if (response.isSuccessful) {
+                  val notes: List<String>? = response.body()
+                  val notesString = notes?.joinToString(", ")
+                  if (notesString != null) {
+                      Log.e("NOTES", notesString)
+                  }
+                  onNotesFetched(notes, null)
+              } else {
+                  val errorMessage = response.message()
+                  onNotesFetched(null, "Failed to fetch notes: $errorMessage")
+              }
+          } catch (e: Exception) {
+              onNotesFetched(null, "Network error: ${e.message}")
+          }
+      }
+  }
+
+
 
