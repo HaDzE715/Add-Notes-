@@ -9,9 +9,11 @@ import android.net.Network
 import android.os.Bundle
 import android.util.Log
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -50,20 +52,36 @@ class SecondActivity : AppCompatActivity() {
             }
         }
     }
-
-    private fun fetchNotesAndUpdateUI(username: String){
-        fetchNotes(username){notes, error->
+    private fun fetchNotesAndUpdateUI(username: String) {
+        fetchNotes(username) { notes, error ->
             runOnUiThread {
-                if(notes != null){
+                if (notes != null) {
                     Log.e("NOTES", "WORKD")
-                    textViewNotes.text = notes.joinToString("\n\n")
-                } else{
+
+                    val listView: ListView = findViewById(R.id.listViewNotes)
+                    val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, notes)
+                    listView.adapter = adapter
+                } else {
                     Log.e("NOTES", "DIDNTWORK!")
                 }
             }
-
         }
     }
+
+
+    //    private fun fetchNotesAndUpdateUI(username: String){
+//        fetchNotes(username){notes, error->
+//            runOnUiThread {
+//                if(notes != null){
+//                    Log.e("NOTES", "WORKD")
+//                    textViewNotes.text = notes.joinToString("\n\n")
+//                } else{
+//                    Log.e("NOTES", "DIDNTWORK!")
+//                }
+//            }
+//
+//        }
+//    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -74,8 +92,6 @@ class SecondActivity : AppCompatActivity() {
         val sharedPref = getSharedPreferences("MY_PREF", Context.MODE_PRIVATE)
         val editor = sharedPref.edit()
         username = sharedPref.getString("USERNAME", "").toString()
-        textViewNotes = findViewById<TextView>(R.id.textViewNotes)
-
 
         if ("LoginActivity" == source) {
             fab = findViewById(R.id.fab)
