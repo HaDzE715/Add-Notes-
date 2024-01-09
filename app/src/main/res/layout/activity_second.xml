@@ -44,7 +44,7 @@
         android:layout_width="25dp"
         android:layout_height="30dp"
         android:src="@drawable/baseline_logout_24"
-        android:layout_marginLeft="360dp"
+        android:layout_marginLeft="340dp"
         android:layout_marginTop="82dp"/>
 
     <TextView
@@ -68,6 +68,20 @@
         android:fontFamily="@font/ageo"
         android:textColor="#FBFBFB"/>
 
+    <TextView
+        android:id="@+id/textViewHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your notes will be displayed here."
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="455dp"
+        android:layout_marginLeft="60dp"
+        android:textSize="18sp"
+        android:textColor="@android:color/white"
+        android:padding="8dp"
+        android:fontFamily="@font/ageo"
+        android:visibility="gone"/>
+
     <ListView
         android:id="@+id/listViewNotes"
         android:layout_width="match_parent"
@@ -78,25 +92,6 @@
         android:textColor="@android:color/white"
         android:padding="8dp"
         android:fontFamily="@font/ageo"/>
-
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent">-->
-
-<!--        <TextView-->
-<!--            android:id="@+id/textViewNotes"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Notes will be displayed here."-->
-<!--            android:layout_centerInParent="true"-->
-<!--            android:layout_marginTop="335dp"-->
-<!--            android:layout_marginLeft="30dp"-->
-<!--            android:textSize="22sp"-->
-<!--            android:textColor="@android:color/white"-->
-<!--            android:padding="8dp"-->
-<!--            android:fontFamily="@font/ageo"/>-->
-<!--    </ScrollView>-->
-
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottomAppBar"

@@ -7,7 +7,11 @@ import android.util.Base64
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
 
@@ -52,9 +56,7 @@ class MainActivity : AppCompatActivity() {
                     editor.putString("USERNAME", username)
                     editor.putString("PASSWORD", password)
                     editor.apply()
-                    if (responseBodyLastLogin != null) {
-                        Log.e("LastLog", responseBodyLastLogin)
-                    }
+
                     if (responseBodyerror.isNullOrEmpty()) {
                         val localImagePath = saveImageLocally(responseBodyimg)
                         val senderIntent = Intent(this, SecondActivity::class.java)
@@ -66,7 +68,7 @@ class MainActivity : AppCompatActivity() {
                         startActivity(senderIntent)
                         finish()
                     } else {
-                        Log.e("Logging in", "Failed!")
+                        Toast.makeText(this, "Incorrect password!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

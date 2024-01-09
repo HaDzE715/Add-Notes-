@@ -8,6 +8,7 @@ import android.graphics.Typeface
 import android.net.Network
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.ImageButton
@@ -36,6 +37,7 @@ class SecondActivity : AppCompatActivity() {
     lateinit var LgoutBtn: ImageView
     lateinit var username: String
     lateinit var textViewNotes: TextView
+    lateinit var textViewHint : TextView
 
 
     fun loadImageIntoImageView(imagePath: String?, imageView: ImageView) {
@@ -53,35 +55,27 @@ class SecondActivity : AppCompatActivity() {
         }
     }
     private fun fetchNotesAndUpdateUI(username: String) {
+        textViewHint = findViewById(R.id.textViewHint)
+
         fetchNotes(username) { notes, error ->
             runOnUiThread {
-                if (notes != null) {
-                    Log.e("NOTES", "WORKD")
-
-                    val listView: ListView = findViewById(R.id.listViewNotes)
-                    val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, notes)
-                    listView.adapter = adapter
-                } else {
-                    Log.e("NOTES", "DIDNTWORK!")
+                val notesize: Int? = notes?.size
+                if (notesize != null) {
+                    if (notes.isNotEmpty() && notesize > 1) {
+                        Log.e("NOTES-SIZE", notesize.toString())
+                        val listView: ListView = findViewById(R.id.listViewNotes)
+                        val adapter =
+                            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, notes)
+                        listView.adapter = adapter
+                    } else {
+                        textViewHint.visibility = View.VISIBLE
+                    }
                 }
             }
         }
     }
 
 
-    //    private fun fetchNotesAndUpdateUI(username: String){
-//        fetchNotes(username){notes, error->
-//            runOnUiThread {
-//                if(notes != null){
-//                    Log.e("NOTES", "WORKD")
-//                    textViewNotes.text = notes.joinToString("\n\n")
-//                } else{
-//                    Log.e("NOTES", "DIDNTWORK!")
-//                }
-//            }
-//
-//        }
-//    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)
@@ -99,6 +93,7 @@ class SecondActivity : AppCompatActivity() {
                 startActivity(Intent(this, AddNote::class.java))
             }
             fetchNotesAndUpdateUI(username)
+
 
             LgoutBtn.setOnClickListener {
                 // Clear user credentials
