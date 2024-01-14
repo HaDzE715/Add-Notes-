@@ -11,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -54,28 +55,60 @@ class SecondActivity : AppCompatActivity() {
             }
         }
     }
+
     private fun fetchNotesAndUpdateUI(username: String) {
         textViewHint = findViewById(R.id.textViewHint)
+        val listView: ListView = findViewById(R.id.listViewNotes)
+        val deleteButton: Button = findViewById(R.id.buttonDeleteNotes)
 
-        fetchNotes(username) { notes, error ->
+        fetchNotes(username) { notesWithId, error ->
             runOnUiThread {
-                val notesize: Int? = notes?.size
-                if (notesize != null) {
-                    if (notes.isNotEmpty() && notesize > 1) {
-                        Log.e("NOTES-SIZE", notesize.toString())
-                        val listView: ListView = findViewById(R.id.listViewNotes)
-                        val adapter =
-                            ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, notes)
+                if (notesWithId != null) {
+                    // Extract notes and ids separately for display
+                    val notes: List<String> = notesWithId.map { it.second }
+                    val ids: List<Int> = notesWithId.map { it.first }
+
+                    // Example: Displaying notes and ids in a simple way
+                    for ((id, note) in notesWithId) {
+                        Log.d("FetchNotes", "ID: $id, Note: $note")
+                    }
+
+                    if (notes.isNotEmpty()) {
+                        val adapter = ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, notes)
                         listView.adapter = adapter
+                        listView.choiceMode = ListView.CHOICE_MODE_MULTIPLE
+
+                        deleteButton.setOnClickListener {
+                            // Get the positions of selected items
+                            val selectedPositions = listView.checkedItemPositions
+
+                            // Iterate over selected positions and delete notes via ID
+                            for (i in 0 until selectedPositions.size()) {
+                                if (selectedPositions.valueAt(i)) {
+                                    val selectedId = ids[selectedPositions.keyAt(i)]
+                                    // Call the deleteNote API with the selected note ID
+                                    deleteNoteById(selectedId)
+                                }
+                            }
+
+                            // Refresh the list after deletion
+                            fetchNotesAndUpdateUI(username)
+                        }
                     } else {
                         textViewHint.visibility = View.VISIBLE
                     }
+                } else {
+                    textViewHint.visibility = View.VISIBLE
+                    Log.e("FetchNotes", "Exception: $error")
                 }
             }
         }
     }
-
-
+    private fun deleteNoteById(id: Int) {
+        // Implement the logic to delete a note by ID
+        // Call your deleteNote API or perform the necessary actions
+        Log.d("DeleteNote", "Deleting note with ID: $id")
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_second)

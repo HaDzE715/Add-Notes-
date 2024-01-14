@@ -14,6 +14,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
+import kotlin.properties.Delegates
 
 class MainActivity : AppCompatActivity() {
 
@@ -21,7 +22,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var passwordInput : EditText
     lateinit var loginBtn : Button
     lateinit var registerBtn : Button
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,6 +45,7 @@ class MainActivity : AppCompatActivity() {
                 val password = passwordInput.text.toString()
                 val loginData = LoginData(username, password)
 
+
                 performLogin(loginData) { responseBody ->
                     val responseBodyerror: String? = responseBody.error
                     val responseBodyfname: String? = responseBody.fname
@@ -67,8 +68,6 @@ class MainActivity : AppCompatActivity() {
                         senderIntent.putExtra("source", "LoginActivity")
                         startActivity(senderIntent)
                         finish()
-                    } else {
-                        Toast.makeText(this, "Incorrect password!", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

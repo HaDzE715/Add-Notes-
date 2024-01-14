@@ -11,7 +11,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 object NetworkService {
     val apiService: ApiService by lazy {
         Retrofit.Builder()
-            .baseUrl("http://10.0.2.2:5000") // Change to 10.0.3.2 when using GennyMotion Emulator
+            .baseUrl("http://10.0.3.2:5000") // Change to 10.0.3.2 when using GennyMotion Emulator
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
@@ -49,7 +49,6 @@ fun performLogin(loginData: LoginData, onLoginComplete: (UserApiResponse) -> Uni
             // Check if the login was successful
             if (response.isSuccessful)
             {
-
                 val responseBody: UserApiResponse? = response.body()
                 if (responseBody != null)
                 {
@@ -102,24 +101,38 @@ fun updateUserDetails(userData: updateData, onUpdateComplete: (Boolean, String?)
         }
     }
 }
-fun fetchNotes(username: String, onNotesFetched: (List<String>?, String?) -> Unit) {
+  fun fetchNotes(username: String, onNotesFetched: (List<Pair<Int, String>>?, String?) -> Unit) {
       GlobalScope.launch(Dispatchers.IO) {
           try {
               val response = apiService.getNotes(username)
 
               if (response.isSuccessful) {
-                  val notes: List<String>? = response.body()
-                  val notesString = notes?.joinToString(", ")
-                  onNotesFetched(notes, null)
+                  val notesResponseList: List<NoteResponse>? = response.body()
+
+                  if (notesResponseList != null && notesResponseList.isNotEmpty()) {
+                      // Extract all notes and id from the list
+                      val notesWithId: List<Pair<Int, String>> = notesResponseList.map { it.id to it.note }
+
+                      onNotesFetched(notesWithId, null)
+                  } else {
+                      onNotesFetched(null, "Empty or invalid response body")
+                  }
               } else {
                   val errorMessage = response.message()
                   onNotesFetched(null, "Failed to fetch notes: $errorMessage")
               }
           } catch (e: Exception) {
+              Log.e("FetchNotes", "Exception: ${e.message}")
               onNotesFetched(null, "Network error: ${e.message}")
           }
       }
   }
+
+
+
+
+
+
 
 
 
